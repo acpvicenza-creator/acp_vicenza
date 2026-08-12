@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "832750046942",
+    "project_id": "acp-vicenza",
+    "storage_bucket": "acp-vicenza.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832750046942:android:1f8d4fb560265e902d7c4f",
+        "android_client_info": {
+          "package_name": "com.example.acp_vicenza"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwa6Pwj018xAqLd4738PEfeSyKfwlIt6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

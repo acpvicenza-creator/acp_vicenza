@@ -1,0 +1,67 @@
+name: acp_vicenza
+description: "ACP Vicenza Death Committee Management App"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  signature: ^5.4.0
+  image_picker: ^1.1.2
+  firebase_core: ^3.0.0
+  cloud_firestore: ^5.0.0
+  firebase_storage: ^12.0.0
+  firebase_auth: ^5.5.1
+  firebase_messaging: ^15.0.0
+  flutter_local_notifications: ^18.0.1
+  pdf: ^3.10.8
+  printing: ^5.13.1
+  excel: ^4.0.6
+  path_provider: ^2.1.2
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^6.0.4
+  sqflite: ^2.3.0
+  sqflite_common_ffi: ^2.3.3
+  path: ^1.8.3
+  adhan: ^2.0.0+1
+  hijri: ^3.0.0
+  http: ^1.6.0
+  # 📊 CHARTS FOR FINANCIAL DASHBOARD
+  fl_chart: ^0.68.0
+  # 🗣️ TEXT TO SPEECH (VOICE ASSISTANT)
+  flutter_tts: ^4.1.0
+  # 💳 PAYMENT GATEWAYS
+  flutter_stripe: ^10.1.1
+  flutter_paypal_payment: ^1.0.6
+  # 🌐 IN-APP WEBVIEW FOR STRIPE AUTO-RETURN
+  webview_flutter: ^4.10.0
+  # 📲 GOOGLE & APPLE WALLET PASSES
+  add_to_wallet: ^0.0.2
+  # 🔗 URL LAUNCHER (For Force Update Links)
+  url_launcher: ^6.3.0
+  share_plus: ^10.0.0
+  shared_preferences: ^2.5.5
+  open_file: ^4.0.0
+  intl: ^0.20.3
+
+dev_dependencies:
+  flutter_test:
+   sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.2
+
+flutter:
+  uses-material-design: true
+  assets:
+  - assets/images/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/acp_logo.png"
+  adaptive_icon_background: "#1B3B6F"
