@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import '../services/whatsapp_service.dart';
 import 'welcome_screen.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -45,8 +46,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  // 🎉 SUCCESS DIALOG -> DIRECT BACK TO ACP HOME
+  // 🎉 SUCCESS DIALOG -> DIRECT BACK TO ACP HOME + WHATSAPP RECEIPT
   void _showPaymentSuccessAndGoHome() {
+    final String memberPhone = widget.registrationData['phone'] ?? widget.registrationData['telefono'] ?? '';
+    final bool isNew = widget.registrationData['isNewMember'] ?? true;
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -71,9 +75,31 @@ class _PaymentScreenState extends State<PaymentScreen> {
         actions: [
           ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF25D366), // WhatsApp Green
+              foregroundColor: Colors.white,
+              minimumSize: const Size(double.infinity, 42),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            icon: const Icon(Icons.send),
+            label: const Text('Send Receipt on WhatsApp', style: TextStyle(fontWeight: FontWeight.bold)),
+            onPressed: () async {
+              await WhatsAppReceiptService.sendPaymentReceipt(
+                memberName: widget.memberName,
+                memberPhone: memberPhone,
+                memberId: widget.praticaNumber,
+                amount: widget.amount,
+                paymentType: isNew ? 'New Registration' : 'Annual Renewal',
+                transactionId: 'STRIPE-${widget.praticaNumber}',
+                validUntil: '31-12-2026',
+              );
+            },
+          ),
+          const SizedBox(height: 8),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF1B3B6F),
               foregroundColor: Colors.white,
-              minimumSize: const Size(double.infinity, 45),
+              minimumSize: const Size(double.infinity, 42),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
             icon: const Icon(Icons.home),
@@ -113,10 +139,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
     }
   }
 
-  // 🏦 3. BANK TRANSFER DETAILS MODAL
+  // 🏦 3. BANK TRANSFER DETAILS MODAL + WHATSAPP NOTIFICATION
   void _showBankDetailsModal() {
+    final String memberPhone = widget.registrationData['phone'] ?? widget.registrationData['telefono'] ?? '';
+    final bool isNew = widget.registrationData['isNewMember'] ?? true;
+
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -140,6 +170,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
             const SizedBox(height: 6),
             SelectableText('Causale: Fee ${widget.praticaNumber} - ${widget.memberName}'),
             const SizedBox(height: 15),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF25D366),
+                foregroundColor: Colors.white,
+                minimumSize: const Size(double.infinity, 45),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              icon: const Icon(Icons.send),
+              label: const Text('Send Bank Slip to Admin WhatsApp', style: TextStyle(fontWeight: FontWeight.bold)),
+              onPressed: () async {
+                await WhatsAppReceiptService.sendPaymentReceipt(
+                  memberName: widget.memberName,
+                  memberPhone: memberPhone.isNotEmpty ? memberPhone : '393200000000',
+                  memberId: widget.praticaNumber,
+                  amount: widget.amount,
+                  paymentType: isNew ? 'New Registration (Bank Transfer)' : 'Renewal (Bank Transfer)',
+                  transactionId: 'BANK-${widget.praticaNumber}',
+                  validUntil: 'Pending Admin Verification',
+                );
+              },
+            ),
+            const SizedBox(height: 8),
             const Text(
               'Note: Please send payment proof/receipt to the ACP Admin for approval.',
               style: TextStyle(fontSize: 11, color: Colors.grey),
